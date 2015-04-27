@@ -116,7 +116,7 @@ function generatepreviewhtml(data){
         var itemhtml =
             '<div id="'+item.thumbnail_id+'" style="display:none," class="thumbnailWrap col-sm-3 ALL-EXTENT ALL-SECTOR mapped '+item.extent+' '+item.sector+'">'+
                 '<div onclick="callModal(this);" class="thumbnail">'+
-                    '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200" alt="" >'+
+                    '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200">'+
                     '<div class="caption">'+
                         '<h5 style="font-weight:bold;">'+item.title+'</h5>'+
                         '<p style="font-size:small; margin:6px 0 0 0;">' + formatDate(item.date) +'</p>'+
