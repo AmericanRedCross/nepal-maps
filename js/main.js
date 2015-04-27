@@ -93,7 +93,7 @@ function clearName(e) {
 
 // beginning of function chain to initialize
 function getCentroids() {
-  d3.csv("../data/nepal-maps.csv", function(data){
+  d3.csv("data/nepal-maps.csv", function(data){
     mapsData = data;
     generatepreviewhtml(data);
   });
