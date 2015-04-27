@@ -118,6 +118,10 @@ a.leaflet-control-zoom-out {
   margin: 0 15px 10px 0;
 }
 
+#ifrclogo {
+  height: 30px;
+}
+
 
 .row-logo {
   display: inline-block;

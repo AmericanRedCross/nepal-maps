@@ -34,8 +34,8 @@ var map = L.map('map', {
 
 function callModal (item) {
 	var modalDescription = $(item).find('.modalDescription').html();
-    var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '.jpg';
-    var img_maxHeight = (windowHeight*0.60).toString() + "px";
+    var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '_thumb.jpg';
+    var img_maxHeight = (windowHeight*0.45).toString() + "px";
     $(".modal-detailedDescription").empty();
     $(".modal-detailedDescription").html(modalDescription);
     $(".modal-img").css('max-height', img_maxHeight);
@@ -126,7 +126,7 @@ function generatepreviewhtml(data){
                         '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
                         '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
                         '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
-                        '<br><a class="btn btn-primary btn-mini" href="'+pdfSrc+'" target="_blank">Download PDF ('+(item.pdf_size/1024/1024).toFixed(2)+' MB)</a>'+
+                        '<br><a class="btn btn-primary btn-mini" href="'+pdfSrc+'" target="_blank">Download file ('+(item.pdf_size/1024/1024).toFixed(2)+' MB)</a>'+
                     '</div>'+
                '</div>'+
             '</div>';
@@ -176,6 +176,7 @@ function generateFilterButtons(){
 
 function formatCentroids(){
     $.each(mapsData, function(index, item) {
+      if(item.longitude !== "null" && item.latitude !== "null"){
         latlng = [item.longitude, item.latitude];
         var mapCoord = {
             "type": "Feature",
@@ -189,6 +190,7 @@ function formatCentroids(){
             }
         }
         centroids.push(mapCoord);
+      }
     });
     toggleFilter("REFRESH");
 }
