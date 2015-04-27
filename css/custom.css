@@ -105,6 +105,11 @@ a.leaflet-control-zoom-out {
   color:#f5f5f5;
 }
 
+.lazy{
+  width: 300px;
+  height: 200px;
+}
+
 .modal-dialog {
   width: 70%;
   height:90%;
