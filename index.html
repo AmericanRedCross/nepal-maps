@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Nepal maps</title>
+
+    <meta property="og:image" content="#" />
+    <meta property="og:title" content="Nepal maps" />
+    <meta property="og:description" content = "Interactive collection of maps." />
+    <meta name="description" content="">
+    <meta name="author" content="American Red Cross">
+
+    <meta name="google-translate-customization" content="dd5207c171a5d11a-29d1c9c17ff34632-g6f9aa177fdeafd13-1a"></meta>
+
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <!-- endbower -->
+
+    <link rel="stylesheet" href="bower_components/leaflet.markerclusterer/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="bower_components/leaflet.markerclusterer/dist/MarkerCluster.Default.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+   <![endif]-->
+
+    <link href="css/custom.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div>
+          <a class="navbar-brand" href="../index.html">Nepal maps</a>
+          <a class="navbar-brand" href="low_bandwidth/index.html"><small>Low-Bandwidth Version</small></a>
+        </div>
+      </div>
+      <div id="google_translate_element" style="position:absolute;top:3px;right:3px;"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </div>
+
+
+    <button class="btn btn-small btn-zoom" type="button" onClick="zoomOut();">Zoom to Extent</button>
+
+
+
+      <div id="map"></div>
+
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body" style="text-align:center;">
+        <img class="modal-img" src="">
+      </div>
+      <div class="modal-footer" style="margin-top:0;">
+        <div class="modal-detailedDescription"></div>
+        <button type="button" class="btn btn-default btn-small" style="float:right; margin-left:15px;" data-dismiss="modal">Close</button>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+  <div class="container">
+      <div class="row row-logo">
+        <a href="http://redcross.org" target="_blank"><img src="img/redcross-logo.png" id="arclogo" /></a>
+        <a href="http://redcross.org.uk" target="_blank"><img src="img/British_Red_Cross.png" id="brclogo" /></a>
+        <a href="http://www.ifrc.org/" target="_blank"><img src="img/IFRC_logo_English_CMYK.png" id="ifrclogo" /></a>
+        <a href="www.nrcs.org/" target="_blank"><img src="img/NepalRedCross-logo.png" id="nrcslogo" /></a>
+      </div>
+
+
+      <div class="collaborationText">
+        <p>The American Red Cross and the British Red Cross are working together because they both love making maps and helping people, yay! This page shows a lot of the maps we've made for folks in the field and our operations centers.</p>
+        <p>Please report any issues by <a href="mailto://daniel.joseph@redcross.org">email</a> or using <a href="https://github.com/AmericanRedCross/nepal-maps/issues" target="_blank">GitHub</a>.</p>
+      </div>
+
+      <hr style="margin-bottom:0;">
+
+      <h4>How to use the mapfolio:</h4>
+        <p>
+          Double click the map to zoom in on an area of interest. Click a marker on the map or a thumbnail in the gallery below to preview the map and get the option of downloading a PDF.
+        </p>
+
+      <h4>Search for maps by:
+      <button id="textSearchBtn" class="btn btn-default btn-small activeSearchType" type="button" style="display:inline;" onclick="toggleSearchType(this)">text input</button>
+      <button id="filterSearchBtn" class="btn btn-default btn-small inactiveSearchType" type="button" style="display:inline;" onclick="toggleSearchType(this)">pre-set filters</button></h4>
+
+      <div style="padding-top:15px;">
+
+        <div id="filterSearch" style="display:none;">
+            <p>
+              Use the filter buttons to explore this collection. The extent filters will return maps from any of the checked areas. For example you can filter for maps that are from either "Ormoc" <u>or</u> "Tacloban." The type filters will return only maps tagged with <u>every</u> checked type. You can also filter for maps that are tagged as both "OSM" <u>and</u> "Poster."
+            </p>
+          <p><h6>
+            <b>Extent Filters:</b>
+            <span  id="extentButtons" style="margin-left:10px;"></span>
+          </h6></p>
+          <p><h6>
+            <b>Type Filters:</b>
+            <span id ="sectorButtons" style="margin-left:10px;"></span>
+          </h6></p>
+          <p>
+            <button class="btn btn-default btn-mini" type="button" onclick='toggleFilter("REFRESH", this);'>Refresh Filters<span class="glyphicon glyphicon-refresh" style="margin-left:15px;"></span></button>
+          </p>
+        </div>
+
+        <div id="textSearch" class="thumbnails-head">
+            <div class="pull-left" style="display:inline; margin-right:10px;">Type search terms here:</div>
+            <div id="form"></div>
+            <div class="clear"></div>
+        </div>
+
+      </div>
+
+      <hr style="margin-bottom:0;">
+
+      <div id="mappreviews" class="row thumbnailGallery"></div>
+    </div>
+
+    <hr style="margin-bottom:10px;">
+    <footer>
+      <div class="disclaimer pull-right">
+        <p>
+            &copy; <a href="http://redcross.org" title="Red Cross" target="_blank">Red Cross</a> |
+            <a title="Disclaimer" onClick="showDisclaimer();">Disclaimer</a>
+        </p>
+    </div>
+    </footer>
+
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="bower_components/jquery.lazyload/jquery.lazyload.js"></script>
+    <script src="bower_components/jquery.lazyload/jquery.scrollstop.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <!-- endbower -->
+
+    <script src="bower_components/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
+    <script src="bower_components/leaflet.markerclusterer/dist/leaflet.markercluster-src.js"></script>
+
+    <script src="js/main.js"></script>
+
+  </body>
+</html>

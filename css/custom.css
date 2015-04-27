@@ -1,0 +1,208 @@
+body{
+  padding-top: 50px;
+  margin: 0;
+}
+
+.oldBrowser {
+  margin: 60px 0;
+  padding: 20px 0;
+  background: #ccc;
+  color: #000;
+}
+
+.navbar {
+  height: 50px;
+}
+
+#map {
+  width: 100%;
+  height: 450px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  border-bottom-color: #eee;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.btn-zoom {
+  position: absolute;
+  left: 47px;
+  top: 60px;
+  z-index: 1001;
+  background-color: #ffffff;
+  border-color: #d7d7d8;
+  font-weight: bold;
+  color: #6d6e70;
+  box-shadow: 1px 1px 9px #c3c3c5;
+}
+
+.btn:hover,
+.btn:focus {
+  outline: 0;
+}
+
+.btn-zoom:hover,
+.btn-zoom:focus {
+  color: black;
+  background-color: #f4f4f4;
+}
+
+a.leaflet-control-zoom-in,
+a.leaflet-control-zoom-out {
+  color:#6d6e70;
+}
+
+.activeSearchType,
+.activeSearchType:focus{
+  background-color: #9f9fa3;
+  border-color: #f5f5f5;
+  color: #000;
+  font-weight: bold;
+}
+.activeSearchType:hover{
+  background-color: #929297;
+  border-color: #f5f5f5;
+}
+.inactiveSearchType,
+.inactiveSearchType:focus {
+  background-color: #c6c6c8;
+  border-color: #f5f5f5;
+}
+.inactiveSearchType:hover{
+  background-color: #929297;
+  border-color: #f5f5f5;
+}
+
+.btn-extent {
+  background-color: #C4DFF6;
+  margin-bottom: 5px;
+  margin-right: 3px;
+}
+.btn-extent:focus {
+  outline:0;
+  color: black;
+}
+.btn-extent:hover,
+.btn-extent.filtering {
+  background-color: #56A0D3;
+  outline: 0;
+  color:#f5f5f5;
+}
+
+.btn-sector{
+  background-color: #8ec06c;
+  margin-bottom: 5px;
+  margin-right: 3px;
+}
+.btn-sector:focus{
+  outline:0;
+  color: black;
+}
+.btn-sector:hover,
+.btn-sector.filtering  {
+  background-color: #537b35;
+  outline: 0;
+  color:#f5f5f5;
+}
+
+.modal-dialog {
+  width: 70%;
+  height:90%;
+}
+
+#arclogo,
+#brclogo,
+#ifrclogo,
+#nrcslogo {
+  height: 35px;
+  margin: 0 15px 10px 0;
+}
+
+
+.row-logo {
+  display: inline-block;
+  margin: 0;
+}
+
+.navbar-brand {
+  max-width: none;
+}
+
+.thumbnail{
+  min-height: 300px;  /*set to largest thumbnail, so all boxes match*/
+}
+
+.thumbnailWrap{
+  padding: 5px;
+}
+
+.thumbnail:hover {
+  text-decoration: none;
+}
+
+#noThumbnails {
+  padding-top: 20px;
+}
+
+.detailedDescription {
+  display: none;
+}
+.modal-detailedDescription {
+  padding-bottom: 8px;
+  text-align: left;
+}
+.modal-content {
+  background-color: #f5f5f5;
+}
+.modal img {
+  border: 1px solid #ccc;
+  max-width: 100%;
+}
+
+@media (max-width: 980px) {
+  /* Enable use of floated navbar text */
+  .navbar-text.pull-right {
+    float: none;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.disclaimer {
+  margin: 0 10px;
+  font-size: small;
+  color: #9f9fa3;
+}
+.disclaimer a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #6d6e70;
+}
+
+/*styling for marker clusters*/
+.marker-cluster-small {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.marker-cluster-small div {
+  background-color: rgba(237, 27, 46, 0.7);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.marker-cluster-medium div {
+  background-color: rgba(237, 27, 46, 0.7);
+}
+
+.marker-cluster-large {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.marker-cluster-large div {
+  background-color: rgba(237, 27, 46, 0.7);
+}
+.marker-cluster div {
+  color: #FFF;
+  text-align: center;
+  border-radius: 15px;
+  font: bold 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}

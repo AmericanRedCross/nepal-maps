@@ -1,0 +1,24 @@
+{
+  "name": "nepal-maps",
+  "version": "0.0.0",
+  "homepage": "https://github.com/AmericanRedCross/nepal-maps",
+  "authors": [
+    "danbjoseph <danbjoseph@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "leaflet": "~0.7.3",
+    "leaflet.markerclusterer": "~0.4.0",
+    "jquery.lazyload": "~1.9.5",
+    "jquery": "~1",
+    "d3": "~3.5.5"
+  }
+}
