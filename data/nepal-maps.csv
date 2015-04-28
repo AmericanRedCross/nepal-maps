@@ -1,5 +1,6 @@
 source,thumbnail_id,title,date,description,filename,pdf_size,extent,sector,longitude,latitude,link
-,T0061,Pop density with shake contours (Letter),04/27/15,a description,Nepal_affected_pop_2015_04_27.pdf,597539,Nepal,Affected,84.26513672,27.26439578,
+,T0062,NRCS situation data for all Nepal,4/27/15,a description,NRCS_Data_27-04-2015.pdf,833669,Nepal,Affected,84.26513672,27.26439578,
+,T0061,Pop density with shake contours (Letter),4/27/15,a description,Nepal_Affected_Pop_Small_27-04-2015.pdf,596048,Nepal,Affected,84.26513672,27.26439578,
 ,T0060,Earthquake affected districts,4/28/15,a description,Earthquake_affected_DC_2015-04-28.pdf,960914,Nepal,Affected,84.26513672,27.26439578,
 ,T0053,Earthquake intensity Bagmati (central),4/27/15,a description,NPL_EarthquakeIntensity_BagmatiZone(central)_2015-04-27.pdf,779643,Bagmati,Earthquake,85.33630371,27.74674627,
 ,T0054,Earthquake intensity Bagmati,4/27/15,a description,NPL_EarthquakeIntensity_BagmatiZone_2015-04-27.pdf,814517,Bagmati,Earthquake,85.41280555,27.88272958,
