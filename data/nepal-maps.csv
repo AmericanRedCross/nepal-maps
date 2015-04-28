@@ -1,6 +1,9 @@
 source,thumbnail_id,title,date,description,filename,pdf_size,extent,sector,longitude,latitude,link
+,T0065,Kathmandu Intensity with Population,4/28/15,a description,Kathmandu_Small_Scale_Intensity_28-04-2015.pdf,632822,Bagmati Kathmandu,Affected,85.28068542,27.6792717,
+,T0064,Kathmandu Open Areas,4/27/15,a description,Kathmandu_OpenAreas-01.pdf,1089376,Bagmati Kathmandu,Shelter,85.28068542,27.6792717,
+,T0063,Affected Population with Shake Intensity (Letter),4/27/15,a description,Affected_Pop_Small_27-04-2015.pdf,612215,Nepal,Affected,84.26513672,27.26439578,
+,T0061,Bhaktapur Open Areas,4/27/15,a description,Bhaktapur_OpenAreas1-01.pdf,663461,Bagmati Bhaktapur,Shelter,85.44290591,27.67735289,
 ,T0062,NRCS situation data for all Nepal,4/27/15,a description,NRCS_Data_27-04-2015.pdf,833669,Nepal,Affected,84.26513672,27.26439578,
-,T0061,Pop density with shake contours (Letter),4/27/15,a description,Nepal_Affected_Pop_Small_27-04-2015.pdf,596048,Nepal,Affected,84.26513672,27.26439578,
 ,T0060,Earthquake affected districts,4/28/15,a description,Earthquake_affected_DC_2015-04-28.pdf,960914,Nepal,Affected,84.26513672,27.26439578,
 ,T0053,Earthquake intensity Bagmati (central),4/27/15,a description,NPL_EarthquakeIntensity_BagmatiZone(central)_2015-04-27.pdf,779643,Bagmati,Earthquake,85.33630371,27.74674627,
 ,T0054,Earthquake intensity Bagmati,4/27/15,a description,NPL_EarthquakeIntensity_BagmatiZone_2015-04-27.pdf,814517,Bagmati,Earthquake,85.41280555,27.88272958,
