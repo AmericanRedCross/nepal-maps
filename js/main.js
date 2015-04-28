@@ -99,9 +99,11 @@ function getCentroids() {
   });
 }
 
+
 //generates html for preview boxes
 function generatepreviewhtml(data){
-    var html = "";
+
+  var html = "";
     function formatDate(date){
         var formattedDate = new Date(date).toString().substring(4,15);
         return formattedDate;
@@ -147,6 +149,65 @@ function generatepreviewhtml(data){
     $('#mappreviews').html(html);
     thumbnails = $(".thumbnailGallery").children();
     generateFilterButtons();
+
+
+    // function generateThumbnailHtml(item){
+    //   var pdfSrc = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/'+item.filename;
+    //   var link = '';
+    //   if (item.link){
+    //       link = '<p style="font-size:small; margin:6px 0 0 10px;"><b>Source:</b> <a href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
+    //   };
+    //   var itemHtml = '<div onclick="callModal(this);" class="thumbnail">'+
+    //       '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200">'+
+    //       '<div class="caption">'+
+    //           '<h5 style="font-weight:bold;">'+item.title+'</h5>'+
+    //           '<p style="font-size:small; margin:6px 0 0 0;">' + formatDate(item.date) +'</p>'+
+    //       '</div>'+
+    //       '<div class="modalDescription" style="display:none;">'+
+    //           '<h4 style="font-weight:bold;">'+item.title+' <small>('+formatDate(item.date)+')</small></h4>'+
+    //           '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
+    //           '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
+    //           '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
+    //           '<br><a class="btn btn-primary btn-mini" href="'+pdfSrc+'" target="_blank">Download file ('+(item.pdf_size/1024/1024).toFixed(2)+' MB)</a>'+
+    //       '</div>'+
+    //  '</div>';
+    //  return itemHtml;
+    // }
+    //
+    // thumbnails = d3.select("#mappreviews").selectAll('div')
+    //   .data(data).enter().append('div')
+    //   .html(function(d) {return generateThumbnailHtml(d); })
+    //   .classed('thumbnailWrap col-sm-3 ALL-EXTENT ALL-SECTOR mapped', true)
+    //   .attr('id', function(d){
+    //     return d.thumbnail_id;
+    //   });
+    //
+    // thumbnails.each(function(d){
+    //     var element = d3.select(this);
+    //     element.classed(d.extent, true);
+    //     element.classed(d.sector, true);
+    //
+    //     // build arrays of tags
+    //     var itemExtents = d.extent.match(/\S+/g);
+    //     $.each(itemExtents, function(index, extent){
+    //         if (extentTags.indexOf(extent) === -1){
+    //             extentTags.push(extent);
+    //         }
+    //     });
+    //     var itemSectors = d.sector.match(/\S+/g);
+    //     $.each(itemSectors, function(index, sector){
+    //         if (sectorTags.indexOf(sector) === -1){
+    //             sectorTags.push(sector);
+    //         }
+    //     });
+    //   }
+    // )
+    //
+    // thumbnails.sort(function(a,b){
+    //   return new Date(b.date) - new Date(a.date);
+    // });
+
+
 }
 
 function generateFilterButtons(){
@@ -283,6 +344,38 @@ function toggleFilter (filter, element) {
 }
 
 function toggleThumbnails (){
+    // thumbnails.each(function(d){
+    //   d3.select(this).style('display', 'none');
+    // });
+    // thumbnails.each(function(d){
+    //   var hasExtent = false;
+    //   $.each(visibleExtents, function(iE, extent){
+    //       if($(thumbnail).hasClass(extent)){
+    //           hasExtent = true;
+    //       }
+    //   });
+    //   var hasSectors = true;
+    //   $.each(visibleSectors, function(iS, sector){
+    //       if($(thumbnail).hasClass(sector) === false ){
+    //           hasSectors = false;
+    //       }
+    //   });
+    //   if(hasExtent === true && hasSectors === true){
+    //       d3.select(this).style('display', 'block').classed('mapped', true);
+    //   }
+    //
+    // })
+    //
+    // thumbnailCount = 0;
+    // thumbnails.each(function(){
+    //   if(d3.select(this).style('display') === 'block'){ thumbnailCount++; }
+    // });
+    // if (thumbnailCount === 0){
+    //     map.removeLayer(markers);
+    // } else {
+    //     markersToMap();
+    // }
+
     $(thumbnails).hide();
     $.each(thumbnails, function(iT, thumbnail){
         var hasExtent = false;
@@ -308,6 +401,8 @@ function toggleThumbnails (){
     } else {
         markersToMap();
     }
+
+
 }
 
 function markersToMap(){
