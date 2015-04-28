@@ -103,6 +103,8 @@ function getCentroids() {
 //generates html for preview boxes
 function generatepreviewhtml(data){
 
+
+
   var html = "";
     function formatDate(date){
         var formattedDate = new Date(date).toString().substring(4,15);
