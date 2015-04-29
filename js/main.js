@@ -1,16 +1,14 @@
 var windowHeight = $(window).height();
+var markers = new L.MarkerClusterGroup();
+var thumbnails;
 var extentButtons;
 var sectorButtons;
 var visibleExtents = [];
 var visibleSectors = [];
 var extentTags = [];
 var sectorTags = [];
-var thumbnails;
-var mapsData;
-var centroids = [];
 var markersBounds = [];
-var displayedPoints = [];
-var markers = new L.MarkerClusterGroup();
+
 
 var centroidOptions = {
     radius: 8,
@@ -32,182 +30,76 @@ var map = L.map('map', {
     layers: [mapTiles]
 });
 
-function callModal (item) {
-	var modalDescription = $(item).find('.modalDescription').html();
-    var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '_thumb.jpg';
-    var img_maxHeight = (windowHeight*0.45).toString() + "px";
-    $(".modal-detailedDescription").empty();
-    $(".modal-detailedDescription").html(modalDescription);
-    $(".modal-img").css('max-height', img_maxHeight);
-    $(".modal-img").attr('src', mapJpg);
-    $('#myModal').modal();
-}
-
-function toggleSearchType (item) {
-    var option = $(item).attr("id");
-    switch (option) {
-        case "filterSearchBtn":
-            $(".filterinput").val('');
-            toggleFilter("REFRESH");
-            $("#filterSearchBtn").removeClass("inactiveSearchType").addClass("activeSearchType");
-            $("#textSearchBtn").addClass("inactiveSearchType").removeClass("activeSearchType");
-            $("#filterSearch").show();
-            $("#textSearch").hide();
-            break;
-        case "textSearchBtn":
-            toggleFilter("REFRESH");
-            $("#textSearchBtn").removeClass("inactiveSearchType").addClass("activeSearchType");
-            $("#filterSearchBtn").addClass("inactiveSearchType").removeClass("activeSearchType");
-            $("#textSearch").show();
-            $("#filterSearch").hide();
-            break;
-    }
-}
-
-//disclaimer text
-function showDisclaimer() {
-    window.alert("The maps on this page do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status of a territory or of its authorities.");
-}
-
-// on marker click open modal
-function centroidClick (e) {
-    var thumbnail_id = "#" + e.target.feature.properties.thumbnail_id;
-    if ($(thumbnail_id).hasClass("ONLINE")) {
-        url = $(thumbnail_id).find('a').attr('href');
-        window.open(url, '_blank');
-    } else {
-        callModal(thumbnail_id);
-    }
-}
-// on marker mouseover
-function displayName(e) {
-    var target = e.target;
-    target.openPopup();
-}
-// on marker mouseout
-function clearName(e) {
-    var target = e.target;
-    target.closePopup();
-}
-
-
 // beginning of function chain to initialize
-function getCentroids() {
-  d3.csv("data/nepal-maps.csv", function(data){
-    mapsData = data;
-    generatepreviewhtml(data);
+function getMeta() {
+  d3.csv("data/nepal-maps.csv", function(metadata){
+    generateThumbnails(metadata);
   });
 }
 
+function generateThumbnails(metadata){
 
-//generates html for preview boxes
-function generatepreviewhtml(data){
+  function generateThumbnailHtml(item){
+    var s3 = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/'+item.filename;
+    var link = '';
+    if (item.link){
+        link = '<p style="font-size:small; margin:6px 0 0 10px;"><b>Source:</b> <a href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
+    };
+    var itemHtml = '<div onclick="callModal(this);" class="thumbnail">'+
+        '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200">'+
+        '<div class="caption">'+
+            '<h5 style="font-weight:bold;">'+item.title+'</h5>'+
+            '<p style="font-size:small; margin:6px 0 0 0;">' + formatDate(new Date(item.date)) +'</p>'+
+        '</div>'+
+        '<div class="modalDescription" style="display:none;">'+
+            '<h4 style="font-weight:bold;">'+item.title+' <small>('+formatDate(new Date(item.date))+')</small></h4>'+
+            '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
+            '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
+            '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
+            '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+
+        '</div>'+
+   '</div>';
+   return itemHtml;
+  }
 
-  var html = "";
-    function formatDate(date){
-        var formattedDate = new Date(date).toString().substring(4,15);
-        return formattedDate;
-    }
+  thumbnails = d3.select("#mappreviews").selectAll('div')
+    .data(metadata).enter().append('div')
+    .attr('id', function(d){ return d.thumbnail_id; })
+    .classed('thumbnailWrap col-sm-3', true)
+    .html(function(d) {return generateThumbnailHtml(d); })
 
-    $.each(data, function(index, item){
-        var pdfSrc = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/'+item.filename;
-        var link = '';
-        if (item.link){
-            link = '<p style="font-size:small; margin:6px 0 0 10px;"><b>Source:</b> <a href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
-        };
-        var itemhtml =
-            '<div id="'+item.thumbnail_id+'" style="display:none," class="thumbnailWrap col-sm-3 ALL-EXTENT ALL-SECTOR mapped '+item.extent+' '+item.sector+'">'+
-                '<div onclick="callModal(this);" class="thumbnail">'+
-                    '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200">'+
-                    '<div class="caption">'+
-                        '<h5 style="font-weight:bold;">'+item.title+'</h5>'+
-                        '<p style="font-size:small; margin:6px 0 0 0;">' + formatDate(item.date) +'</p>'+
-                    '</div>'+
-                    '<div class="modalDescription" style="display:none;">'+
-                        '<h4 style="font-weight:bold;">'+item.title+' <small>('+formatDate(item.date)+')</small></h4>'+
-                        '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
-                        '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
-                        '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
-                        '<br><a class="btn btn-primary btn-mini" href="'+pdfSrc+'" target="_blank">Download file ('+(item.pdf_size/1024/1024).toFixed(2)+' MB)</a>'+
-                    '</div>'+
-               '</div>'+
-            '</div>';
-        html=html+itemhtml;
-        var itemExtents = item.extent.match(/\S+/g);
+    thumbnails.each(function(d){
+        var element = d3.select(this);
+        element.classed(d.extent, true);
+        element.classed(d.sector, true);
+
+        // build arrays of tags
+        var itemExtents = d.extent.match(/\S+/g);
         $.each(itemExtents, function(index, extent){
             if (extentTags.indexOf(extent) === -1){
                 extentTags.push(extent);
             }
         });
-        var itemSectors = item.sector.match(/\S+/g);
+        var itemSectors = d.sector.match(/\S+/g);
         $.each(itemSectors, function(index, sector){
             if (sectorTags.indexOf(sector) === -1){
                 sectorTags.push(sector);
             }
         });
+      }
+    )
+
+    thumbnails.sort(function(a,b){
+      return new Date(b.date) - new Date(a.date);
     });
-    $('#mappreviews').html(html);
-    thumbnails = $(".thumbnailGallery").children();
+
+    $(function() {
+        $("img.lazy").lazyload({
+            effect: "fadeIn"
+        });
+    });
+
     generateFilterButtons();
-
-
-    // function generateThumbnailHtml(item){
-    //   var pdfSrc = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/'+item.filename;
-    //   var link = '';
-    //   if (item.link){
-    //       link = '<p style="font-size:small; margin:6px 0 0 10px;"><b>Source:</b> <a href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
-    //   };
-    //   var itemHtml = '<div onclick="callModal(this);" class="thumbnail">'+
-    //       '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200">'+
-    //       '<div class="caption">'+
-    //           '<h5 style="font-weight:bold;">'+item.title+'</h5>'+
-    //           '<p style="font-size:small; margin:6px 0 0 0;">' + formatDate(item.date) +'</p>'+
-    //       '</div>'+
-    //       '<div class="modalDescription" style="display:none;">'+
-    //           '<h4 style="font-weight:bold;">'+item.title+' <small>('+formatDate(item.date)+')</small></h4>'+
-    //           '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
-    //           '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
-    //           '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
-    //           '<br><a class="btn btn-primary btn-mini" href="'+pdfSrc+'" target="_blank">Download file ('+(item.pdf_size/1024/1024).toFixed(2)+' MB)</a>'+
-    //       '</div>'+
-    //  '</div>';
-    //  return itemHtml;
-    // }
-    //
-    // thumbnails = d3.select("#mappreviews").selectAll('div')
-    //   .data(data).enter().append('div')
-    //   .html(function(d) {return generateThumbnailHtml(d); })
-    //   .classed('thumbnailWrap col-sm-3 ALL-EXTENT ALL-SECTOR mapped', true)
-    //   .attr('id', function(d){
-    //     return d.thumbnail_id;
-    //   });
-    //
-    // thumbnails.each(function(d){
-    //     var element = d3.select(this);
-    //     element.classed(d.extent, true);
-    //     element.classed(d.sector, true);
-    //
-    //     // build arrays of tags
-    //     var itemExtents = d.extent.match(/\S+/g);
-    //     $.each(itemExtents, function(index, extent){
-    //         if (extentTags.indexOf(extent) === -1){
-    //             extentTags.push(extent);
-    //         }
-    //     });
-    //     var itemSectors = d.sector.match(/\S+/g);
-    //     $.each(itemSectors, function(index, sector){
-    //         if (sectorTags.indexOf(sector) === -1){
-    //             sectorTags.push(sector);
-    //         }
-    //     });
-    //   }
-    // )
-    //
-    // thumbnails.sort(function(a,b){
-    //   return new Date(b.date) - new Date(a.date);
-    // });
-
-
 }
 
 function generateFilterButtons(){
@@ -232,35 +124,14 @@ function generateFilterButtons(){
     });
     $('#sectorButtons').html(sectorFilterHtml);
     sectorButtons = $("#sectorButtons").children();
-    formatCentroids();
+
+    markersToMap();
 }
 
-function formatCentroids(){
-    $.each(mapsData, function(index, item) {
-      if(item.longitude !== "null" && item.latitude !== "null"){
-        latlng = [item.longitude, item.latitude];
-        var mapCoord = {
-            "type": "Feature",
-            "properties": {
-                "name": item.name,
-                "thumbnail_id": item.thumbnail_id,
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": latlng
-            }
-        }
-        centroids.push(mapCoord);
-      }
-    });
-    toggleFilter("REFRESH");
-}
-
+// filter function
+// ===============
 function toggleFilter (filter, element) {
     // set both extent and sector to All, when no thumbnails are showing and refresh filters option is clicked
-    $.each(thumbnails, function(i, thumbnail){
-        $(thumbnail).removeClass("noSearchMatch").removeClass("mapped");
-    });
     if(filter === "REFRESH"){
         $.each(extentButtons, function(i, button){
             $(button).children().removeClass("glyphicon-check");
@@ -343,95 +214,77 @@ function toggleFilter (filter, element) {
     toggleThumbnails();
 }
 
-function toggleThumbnails (){
-    // thumbnails.each(function(d){
-    //   d3.select(this).style('display', 'none');
-    // });
-    // thumbnails.each(function(d){
-    //   var hasExtent = false;
-    //   $.each(visibleExtents, function(iE, extent){
-    //       if($(thumbnail).hasClass(extent)){
-    //           hasExtent = true;
-    //       }
-    //   });
-    //   var hasSectors = true;
-    //   $.each(visibleSectors, function(iS, sector){
-    //       if($(thumbnail).hasClass(sector) === false ){
-    //           hasSectors = false;
-    //       }
-    //   });
-    //   if(hasExtent === true && hasSectors === true){
-    //       d3.select(this).style('display', 'block').classed('mapped', true);
-    //   }
-    //
-    // })
-    //
-    // thumbnailCount = 0;
-    // thumbnails.each(function(){
-    //   if(d3.select(this).style('display') === 'block'){ thumbnailCount++; }
-    // });
-    // if (thumbnailCount === 0){
-    //     map.removeLayer(markers);
-    // } else {
-    //     markersToMap();
-    // }
+function toggleThumbnails(){
 
-    $(thumbnails).hide();
-    $.each(thumbnails, function(iT, thumbnail){
-        var hasExtent = false;
-        $.each(visibleExtents, function(iE, extent){
-            if($(thumbnail).hasClass(extent)){
-                hasExtent = true;
-            }
-        });
-        var hasSectors = true;
-        $.each(visibleSectors, function(iS, sector){
-            if($(thumbnail).hasClass(sector) === false ){
-                hasSectors = false;
-            }
-        });
-        if(hasExtent === true && hasSectors === true){
-            $(thumbnail).show();
-            $(thumbnail).addClass("mapped");
+  thumbnails.each(function(d){
+    var thisThumbnail = d3.select(this);
+    // thisThumbnail.style('display', 'none');
+    var hasExtent = false;
+    $.each(visibleExtents, function(iE, extent){
+        if(thisThumbnail.classed(extent) || $.inArray("ALL-EXTENT", visibleExtents) != -1){
+            hasExtent = true;
         }
     });
-    thumbnailCount = $(thumbnails).filter(function(){return $(this).css('display') === 'block';}).length;
-    if (thumbnailCount === 0){
-        map.removeLayer(markers);
-    } else {
-        markersToMap();
+    var hasSectors = true;
+    if($.inArray("ALL-SECTOR", visibleSectors) == -1){
+      $.each(visibleSectors, function(iS, sector){
+          if(thisThumbnail.classed(sector) === false){
+              hasSectors = false;
+          }
+      });
     }
-
-
+    if(hasExtent === true && hasSectors === true){
+      thisThumbnail.classed('noMatch', false);
+    } else {
+        thisThumbnail.classed('noMatch', true);
+    }
+  });
+  thumbnailCount = 0;
+  thumbnails.each(function(){
+    if(d3.select(this).style('display') === 'block'){ thumbnailCount++; }
+  });
+  if (thumbnailCount === 0){
+      map.removeLayer(markers);
+  } else {
+      markersToMap();
+  }
 }
 
 function markersToMap(){
-    $(function() {
-        $("img.lazy").lazyload({
-            effect: "fadeIn"
-        });
-    });
     map.removeLayer(markers);
     markers = new L.MarkerClusterGroup({
         showCoverageOnHover:false,
         maxClusterRadius: 40,
         spiderfyDistanceMultiplier:2
     });
-    idList = [];
-    displayedPoints=[];
-    //build array of visible thumbnail IDs
-    $.each(thumbnails, function (i, thumbnail){
-       if($(thumbnail).hasClass("mapped")){
-           idList.push($(thumbnail).attr("id"));
-       }
-    })
-    $.each(centroids, function (i, centroid){
-       var centroid_id = centroid.properties.thumbnail_id;
-       if ($.inArray(centroid_id, idList) !== -1){
-           displayedPoints.push(centroid);
-       }
-    })
-    marker = L.geoJson(displayedPoints, {
+
+    mappedMaps=[];
+
+    function toGeoJson(d){
+      if(d.longitude !== "null" && d.latitude !== "null"){
+        latlng = [d.longitude, d.latitude];
+        var mappedMap = {
+          "type": "Feature",
+          "properties": {
+            "name": d.name,
+            "thumbnail_id": d.thumbnail_id,
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": latlng
+          }
+        };
+        mappedMaps.push(mappedMap);
+      }
+    }
+
+    thumbnails.filter(function(d){
+      return d3.select(this).style('display') === "block"
+    }).each(function(d){
+      toGeoJson(d);
+    });
+
+    marker = L.geoJson(mappedMaps, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, centroidOptions);
         },
@@ -458,18 +311,85 @@ function markersToMap(){
     markersBounds._northEast.lng += 0.05;
     markersBounds._southWest.lat -= 0.05;
     markersBounds._southWest.lat -= 0.05;
-    map.fitBounds(markersBounds);
+    zoomOut();
 }
 
 $(window).resize(function(){
     map.fitBounds(markersBounds);
     windowHeight = $(window).height();
-})
+});
 
 
 // reset map bounds using Zoom to Extent button
 function zoomOut() {
     map.fitBounds(markersBounds);
+}
+
+
+
+
+
+
+// helper functions
+// ================
+var formatDate = d3.time.format("%b-%d");
+
+function callModal (item) {
+	var modalDescription = $(item).find('.modalDescription').html();
+    var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '_thumb.jpg';
+    var img_maxHeight = (windowHeight*0.45).toString() + "px";
+    $(".modal-detailedDescription").empty();
+    $(".modal-detailedDescription").html(modalDescription);
+    $(".modal-img").css('max-height', img_maxHeight);
+    $(".modal-img").attr('src', mapJpg);
+    $('#myModal').modal();
+}
+
+function toggleSearchType (item) {
+    thumbnails.classed('noMatch', false);
+    $(".filterinput").val('');
+    var option = $(item).attr("id");
+    // toggleFilter("REFRESH");
+    switch (option) {
+        case "filterSearchBtn":
+            $("#filterSearchBtn").removeClass("inactiveSearchType").addClass("activeSearchType");
+            $("#textSearchBtn").addClass("inactiveSearchType").removeClass("activeSearchType");
+            $("#filterSearch").show();
+            $("#textSearch").hide();
+            break;
+        case "textSearchBtn":
+            $("#textSearchBtn").removeClass("inactiveSearchType").addClass("activeSearchType");
+            $("#filterSearchBtn").addClass("inactiveSearchType").removeClass("activeSearchType");
+            $("#textSearch").show();
+            $("#filterSearch").hide();
+            break;
+    }
+}
+
+//disclaimer text
+function showDisclaimer() {
+    window.alert("The maps on this page do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status of a territory or of its authorities.");
+}
+
+// on marker click open modal
+function centroidClick (e) {
+    var thumbnail_id = "#" + e.target.feature.properties.thumbnail_id;
+    if ($(thumbnail_id).hasClass("ONLINE")) {
+        url = $(thumbnail_id).find('a').attr('href');
+        window.open(url, '_blank');
+    } else {
+        callModal(thumbnail_id);
+    }
+}
+// on marker mouseover
+function displayName(e) {
+    var target = e.target;
+    target.openPopup();
+}
+// on marker mouseout
+function clearName(e) {
+    var target = e.target;
+    target.closePopup();
 }
 
 
@@ -487,24 +407,20 @@ function zoomOut() {
     $(input)
       .change( function () {
             var filters = $(this).val().match(/\S+/g);
-            $.each(thumbnails, function(index, thumbnail){
-                $(thumbnail).removeClass("noSearchMatch").removeClass("mapped");
-            });
+
+            thumbnails.classed('noMatch', false);
+
+            // is there user input in the search box?
             if(filters) {
                 $.each(filters, function(index, filter){
                     $matches = $(list).find('.thumbnailWrap:Contains(' + filter + ')');
-                    $('.thumbnailWrap', list).not($matches).addClass("noSearchMatch");
+                    $('.thumbnailWrap', list).not($matches).addClass('noMatch');
                 });
+            // if no user input, show all thumbnails
             } else {
-                $(thumbnails).find(".thumbnailWrap").show();
+              thumbnails.classed('noMatch', false);
             }
-            $.each(thumbnails, function(index, thumbnail){
-                if($(thumbnail).hasClass("noSearchMatch")){
-                    $(thumbnail).hide();
-                } else {
-                    $(thumbnail).addClass("mapped").show();
-                }
-            });
+
             markersToMap();
             return false;
         })
@@ -518,6 +434,4 @@ function zoomOut() {
 }(jQuery));
 
 
-
-// start function chain to initialize map
-getCentroids();
+getMeta();
