@@ -141,3 +141,7 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,MA105,Co-ordination hubs,4/29/2015,Map shows current Kathmandu coordination hubs. Co-ordinates are shown in WGS84 geographical.,MA105_V01_KathmanduHubs_A3-300dpi.pdf,4333750,Kathmandu,Coordination,85.31518936,27.71331814,http://mapaction.org/deployments/mapdetail/3899.html
 ,T0135,"NRCS situation data for Nepal 2015-04-30 (11""x17"")",4/30/2015,a description,NRCS_Data_2015-04-30.pdf,863984,Nepal,Affected,null,null,
 ,T0136,"NRCS situation data for Nepal 2015-04-30 highres (11""x17"")",4/30/2015,a description,NRCS_Highres_2015-04-30.pdf,2199353,Nepal,Affected,null,null,
+,T0137,Kathmandu with NRCS HQ,03/27/2015,Maps shows Kathmandu using OSM and the Nepal Red Cross Society Headquarters,kathmandu_arche-01.pdf,12848,Kathmandu,Red Cross,85.34962108,27.72793597,
+,T0138,Nuwakot District Hillshade,03/27/2015,Maps shows the Nuwakot District with hillshade,nuwakot_district_archd-01.pdf,5312,Nuwakot,Admin-boundaries Hillshade,85.23769696,27.9148685,
+,T0139,Rasuwa District Hillshade,03/27/2015,Map shows the Rasuwa District with hillshade,rasuwa_archd-02.pdf,4808,Rasuwa,Admin-boundaries Hillshade,85.41469951,28.18474082,
+,T0140,Nepal Admin Boundaries,03/27/15,Maps shows Nepal Admin Boundaries,nepal_admin_boundaries-01.png,463774,Nepal,Admin-boundaries,null,null,
