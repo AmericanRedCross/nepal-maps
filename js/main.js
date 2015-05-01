@@ -7,6 +7,7 @@ var visibleExtents = [];
 var visibleSectors = [];
 var extentTags = [];
 var sectorTags = [];
+var hasInteractiveMapTags = [];
 var markersBounds = [];
 
 
@@ -56,7 +57,8 @@ function generateThumbnails(metadata){
             '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
-            '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+
+            '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+     
+            ((item.interactiveMapLink != '') ? '<a class="btn btn-primary btn-mini" href="'+item.interactiveMapLink+'" target="_blank">Interactive Map</a>' : '') +
         '</div>'+
    '</div>';
    return itemHtml;
@@ -72,6 +74,7 @@ function generateThumbnails(metadata){
         var element = d3.select(this);
         element.classed(d.extent, true);
         element.classed(d.sector, true);
+        element.classed(d.hasInteractiveMap, true);
 
         // build arrays of tags
         var itemExtents = d.extent.match(/\S+/g);
@@ -84,6 +87,13 @@ function generateThumbnails(metadata){
         $.each(itemSectors, function(index, sector){
             if (sectorTags.indexOf(sector) === -1){
                 sectorTags.push(sector);
+            }
+        });
+        
+        var itemHasInteractiveMap = d.hasInteractiveMap.match(/\S+/g);
+        $.each(itemHasInteractiveMap, function(index, hasInteractiveMap){
+            if (hasInteractiveMapTags.indexOf(hasInteractiveMap) === -1){
+                hasInteractiveMapTags.push(hasInteractiveMap);
             }
         });
       }
@@ -124,6 +134,17 @@ function generateFilterButtons(){
     });
     $('#sectorButtons').html(sectorFilterHtml);
     sectorButtons = $("#sectorButtons").children();
+    
+    hasInteractiveMapTags.sort();
+    var hasInteractiveMapFilterHtml = '<button id="ALL-HASINTERACTIVEMAP" class="btn btn-small btn-sector filtering all" type="button" onclick="toggleFilter('+"'ALL-MAPTYPE'"+', this);"'+
+        'style="margin-right:10px;">All <span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
+    $.each(hasInteractiveMapTags, function(index, tag){
+        var itemHtml = '<button id="'+tag+'" class="btn btn-small btn-sector" type="button" onclick="toggleFilter('+"'"+tag+"'"+', this);">'+tag+
+            '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
+        hasInteractiveMapFilterHtml += itemHtml;
+    });
+    $('#hasInteractiveMapButtons').html(hasInteractiveMapFilterHtml);
+    hasInteractiveMapButtons = $("#hasInteractiveMapButtons").children();
 
     markersToMap();
 }
@@ -149,6 +170,15 @@ function toggleFilter (filter, element) {
         $("#ALL-SECTOR").children().removeClass("glyphicon-unchecked");
         $("#ALL-SECTOR").children().addClass("glyphicon-check");
         $("#ALL-SECTOR").addClass("filtering");
+        
+        $.each(hasInteractiveMapButtons, function(i, button){
+            $(button).children().removeClass("glyphicon-check");
+            $(button).children().addClass("glyphicon-unchecked");
+            $(button).removeClass("filtering");
+        })
+        $("#ALL-HASINTERACTIVEMAP").children().removeClass("glyphicon-unchecked");
+        $("#ALL-HASINTERACTIVEMAP").children().addClass("glyphicon-check");
+        $("#ALL-HASINTERACTIVEMAP").addClass("filtering");
     } else {
     // if a filter button is clicked
         var containerId = '#' + $(element).parent().attr('id');
@@ -211,6 +241,15 @@ function toggleFilter (filter, element) {
             visibleSectors.push(buttonid);
         }
     })
+    
+    // check to see what mapTypes are active
+    visibleHasInteractiveMaps = [];
+    $.each(hasInteractiveMapButtons, function(i, button){
+        if($(button).hasClass("filtering")){
+            var buttonid = $(button).attr("id");
+            visibleHasInteractiveMaps.push(buttonid);
+        }
+    })
     toggleThumbnails();
 }
 
@@ -233,7 +272,16 @@ function toggleThumbnails(){
           }
       });
     }
-    if(hasExtent === true && hasSectors === true){
+    var hashasInteractiveMaps = true;
+    if($.inArray("ALL-HASINTERACTIVEMAPS", visibleHasInteractiveMaps) == -1){
+      $.each(visibleHasInteractiveMaps, function(iS, hasInteractiveMap){
+          if(thisThumbnail.classed(hasInteractiveMap) === false){
+              hashasInteractiveMaps = false;
+          }
+      });
+    }
+    
+    if(hasExtent === true && hasSectors === true && hashasInteractiveMaps === true){
       thisThumbnail.classed('noMatch', false);
     } else {
         thisThumbnail.classed('noMatch', true);
