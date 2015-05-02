@@ -242,93 +242,91 @@ function toggleThumbnails(){
         thisThumbnail.classed('noMatch', true);
     }
   });
-  thumbnailCount = 0;
-  thumbnails.each(function(){
-    if(d3.select(this).style('display') === 'block'){ thumbnailCount++; }
-  });
-  if (thumbnailCount === 0){
-      map.removeLayer(markers);
-  } else {
-      markersToMap();
-  }
+  markersToMap();
+
 }
 
 function markersToMap(){
-    map.removeLayer(markers);
-    markers = new L.MarkerClusterGroup({
-        showCoverageOnHover:false,
-        maxClusterRadius: 40,
-        spiderfyDistanceMultiplier:2
-    });
 
-    mappedMaps=[];
+      map.removeLayer(markers);
 
-    function toGeoJson(d){
-      if(d.longitude !== "null" && d.latitude !== "null"){
-        latlng = [d.longitude, d.latitude];
-        var mappedMap = {
-          "type": "Feature",
-          "properties": {
-            "name": d.name,
-            "thumbnail_id": d.thumbnail_id,
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": latlng
-          }
-        };
-        mappedMaps.push(mappedMap);
-      }
-    }
-
-    thumbnails.filter(function(d){
-      return d3.select(this).style('display') === "block"
-    }).each(function(d){
-      toGeoJson(d);
-    });
-
-    marker = L.geoJson(mappedMaps, {
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, centroidOptions);
-        },
-        onEachFeature: function(feature, layer) {
-            var thumbnail_id = "#" + feature.properties.thumbnail_id;
-            var popupContent = $(thumbnail_id).find('.caption').html();
-            var popupOptions = {
-                'minWidth': 30,
-                'offset': [0,-10],
-                'closeButton': false,
-            };
-            layer.bindPopup(popupContent, popupOptions);
-            layer.on({
-                click: centroidClick,
-                mouseover: displayName,
-                mouseout: clearName,
-            });
+      // check all visible thumbnails for coordinates and
+      // build a feature array of points
+      mappedMaps=[];
+      function toGeoJson(d){
+        if(d.longitude !== "null" && d.latitude !== "null"){
+          latlng = [d.longitude, d.latitude];
+          var mappedMap = {
+            "type": "Feature",
+            "properties": {
+              "name": d.name,
+              "thumbnail_id": d.thumbnail_id,
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": latlng
+            }
+          };
+          mappedMaps.push(mappedMap);
         }
-    });
-    markers.addLayer(marker);
-    markers.addTo(map);
-    markersBounds = markers.getBounds();
+      }
+      thumbnails.filter(function(d){
+        return d3.select(this).style('display') === "block"
+      }).each(function(d){
+        toGeoJson(d);
+      });
 
-    // This won't work when there are only markers with no lat/lng. getBounds function should be overwritten
-    markersBounds._northEast.lat += 0.05;
-    markersBounds._northEast.lng += 0.05;
-    markersBounds._southWest.lat -= 0.05;
-    markersBounds._southWest.lat -= 0.05;
+      // if there are visible thumbnails with coordinates for map markers
+      // display them and zoom to the bounds of the markers
+      if (mappedMaps.length > 0){
+        markers = new L.MarkerClusterGroup({
+            showCoverageOnHover:false,
+            maxClusterRadius: 40,
+            spiderfyDistanceMultiplier:2
+        });
 
-    zoomOut();
+        marker = L.geoJson(mappedMaps, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, centroidOptions);
+            },
+            onEachFeature: function(feature, layer) {
+                var thumbnail_id = "#" + feature.properties.thumbnail_id;
+                var popupContent = $(thumbnail_id).find('.caption').html();
+                var popupOptions = {
+                    'minWidth': 30,
+                    'offset': [0,-10],
+                    'closeButton': false,
+                };
+                layer.bindPopup(popupContent, popupOptions);
+                layer.on({
+                    click: centroidClick,
+                    mouseover: displayName,
+                    mouseout: clearName,
+                });
+            }
+        });
+        markers.addLayer(marker);
+        markers.addTo(map);
+        mapBounds = markers.getBounds();
+        zoomOut();
+
+      } else {
+        // zoom to all Nepal
+        var southWest = L.latLng(26.25, 80.09),
+          northEast = L.latLng(30.45, 88.42);
+        mapBounds = L.latLngBounds(southWest, northEast);
+        zoomOut();
+      }
 }
 
 $(window).resize(function(){
-    map.fitBounds(markersBounds);
+    zoomOut();
     windowHeight = $(window).height();
 });
 
 
-// reset map bounds using Zoom to Extent button
 function zoomOut() {
-    map.fitBounds(markersBounds);
+    map.fitBounds(mapBounds);
 }
 
 
