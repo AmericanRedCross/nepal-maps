@@ -1,6 +1,7 @@
 var windowHeight = $(window).height();
 var markers = new L.MarkerClusterGroup();
 var thumbnails;
+var thumbnailCount = 0;
 var extentButtons;
 var sectorButtons;
 var visibleExtents = [];
@@ -385,11 +386,12 @@ function showDisclaimer() {
 // on marker click open modal
 function centroidClick (e) {
     var thumbnail_id = "#" + e.target.feature.properties.thumbnail_id;
-    if ($(thumbnail_id).hasClass("ONLINE")) {
-        url = $(thumbnail_id).find('a').attr('href');
-        window.open(url, '_blank');
+    if ($(thumbnail_id).hasClass("Web-map")) {
+        thisUrl = $(thumbnail_id).find('.thumbnail-link').attr('href');
+        window.open(thisUrl, '_blank');
     } else {
-        callModal(thumbnail_id);
+        searchString = thumbnail_id + " .thumbnail";
+        $(searchString).click();
     }
 }
 // on marker mouseover
