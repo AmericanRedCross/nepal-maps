@@ -355,11 +355,14 @@ function markersToMap(){
     markers.addLayer(marker);
     markers.addTo(map);
     markersBounds = markers.getBounds();
+    
+    // This won't work when there are only markers with no lat/lng. getBounds function should be overwritten
     markersBounds._northEast.lat += 0.05;
     markersBounds._northEast.lng += 0.05;
     markersBounds._southWest.lat -= 0.05;
     markersBounds._southWest.lat -= 0.05;
-    zoomOut();
+    
+    zoomOut();    
 }
 
 $(window).resize(function(){
