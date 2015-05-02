@@ -100,7 +100,6 @@ function generateThumbnails(metadata){
     )
 
     thumbnails.sort(function(a,b){
-        var p = b.priority - a.priority;
       return b.priority - a.priority || new Date(b.date) - new Date(a.date);
     });
 
