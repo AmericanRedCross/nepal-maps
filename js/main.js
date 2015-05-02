@@ -7,7 +7,6 @@ var visibleExtents = [];
 var visibleSectors = [];
 var extentTags = [];
 var sectorTags = [];
-var hasInteractiveMapTags = [];
 var markersBounds = [];
 
 
@@ -57,8 +56,8 @@ function generateThumbnails(metadata){
             '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
-            '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+     
-            ((item.interactiveMapLink != '') ? '<a class="btn btn-primary btn-mini" href="'+item.interactiveMapLink+'" target="_blank">Interactive Map</a>' : '') +
+            '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+
+            ((item.link != '') ? '<br><a class="btn btn-primary btn-mini thumbnail-link" href="'+item.link+'" target="_blank">Link to source</a>' : '')
         '</div>'+
    '</div>';
    return itemHtml;
@@ -74,7 +73,6 @@ function generateThumbnails(metadata){
         var element = d3.select(this);
         element.classed(d.extent, true);
         element.classed(d.sector, true);
-        element.classed(d.hasInteractiveMap, true);
 
         // build arrays of tags
         var itemExtents = d.extent.match(/\S+/g);
@@ -89,18 +87,11 @@ function generateThumbnails(metadata){
                 sectorTags.push(sector);
             }
         });
-        
-        var itemHasInteractiveMap = d.hasInteractiveMap.match(/\S+/g);
-        $.each(itemHasInteractiveMap, function(index, hasInteractiveMap){
-            if (hasInteractiveMapTags.indexOf(hasInteractiveMap) === -1){
-                hasInteractiveMapTags.push(hasInteractiveMap);
-            }
-        });
       }
     )
 
     thumbnails.sort(function(a,b){
-      return b.priority - a.priority || new Date(b.date) - new Date(a.date);
+      return new Date(b.date) - new Date(a.date);
     });
 
     $(function() {
@@ -134,17 +125,6 @@ function generateFilterButtons(){
     });
     $('#sectorButtons').html(sectorFilterHtml);
     sectorButtons = $("#sectorButtons").children();
-    
-    hasInteractiveMapTags.sort();
-    var hasInteractiveMapFilterHtml = '<button id="ALL-HASINTERACTIVEMAP" class="btn btn-small btn-sector filtering all" type="button" onclick="toggleFilter('+"'ALL-MAPTYPE'"+', this);"'+
-        'style="margin-right:10px;">All <span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
-    $.each(hasInteractiveMapTags, function(index, tag){
-        var itemHtml = '<button id="'+tag+'" class="btn btn-small btn-sector" type="button" onclick="toggleFilter('+"'"+tag+"'"+', this);">'+tag+
-            '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
-        hasInteractiveMapFilterHtml += itemHtml;
-    });
-    $('#hasInteractiveMapButtons').html(hasInteractiveMapFilterHtml);
-    hasInteractiveMapButtons = $("#hasInteractiveMapButtons").children();
 
     markersToMap();
 }
@@ -170,15 +150,7 @@ function toggleFilter (filter, element) {
         $("#ALL-SECTOR").children().removeClass("glyphicon-unchecked");
         $("#ALL-SECTOR").children().addClass("glyphicon-check");
         $("#ALL-SECTOR").addClass("filtering");
-        
-        $.each(hasInteractiveMapButtons, function(i, button){
-            $(button).children().removeClass("glyphicon-check");
-            $(button).children().addClass("glyphicon-unchecked");
-            $(button).removeClass("filtering");
-        })
-        $("#ALL-HASINTERACTIVEMAP").children().removeClass("glyphicon-unchecked");
-        $("#ALL-HASINTERACTIVEMAP").children().addClass("glyphicon-check");
-        $("#ALL-HASINTERACTIVEMAP").addClass("filtering");
+
     } else {
     // if a filter button is clicked
         var containerId = '#' + $(element).parent().attr('id');
@@ -241,15 +213,6 @@ function toggleFilter (filter, element) {
             visibleSectors.push(buttonid);
         }
     })
-    
-    // check to see what mapTypes are active
-    visibleHasInteractiveMaps = [];
-    $.each(hasInteractiveMapButtons, function(i, button){
-        if($(button).hasClass("filtering")){
-            var buttonid = $(button).attr("id");
-            visibleHasInteractiveMaps.push(buttonid);
-        }
-    })
     toggleThumbnails();
 }
 
@@ -257,7 +220,6 @@ function toggleThumbnails(){
 
   thumbnails.each(function(d){
     var thisThumbnail = d3.select(this);
-    // thisThumbnail.style('display', 'none');
     var hasExtent = false;
     $.each(visibleExtents, function(iE, extent){
         if(thisThumbnail.classed(extent) || $.inArray("ALL-EXTENT", visibleExtents) != -1){
@@ -272,16 +234,8 @@ function toggleThumbnails(){
           }
       });
     }
-    var hashasInteractiveMaps = true;
-    if($.inArray("ALL-HASINTERACTIVEMAPS", visibleHasInteractiveMaps) == -1){
-      $.each(visibleHasInteractiveMaps, function(iS, hasInteractiveMap){
-          if(thisThumbnail.classed(hasInteractiveMap) === false){
-              hashasInteractiveMaps = false;
-          }
-      });
-    }
-    
-    if(hasExtent === true && hasSectors === true && hashasInteractiveMaps === true){
+
+    if(hasExtent === true && hasSectors){
       thisThumbnail.classed('noMatch', false);
     } else {
         thisThumbnail.classed('noMatch', true);
@@ -355,14 +309,14 @@ function markersToMap(){
     markers.addLayer(marker);
     markers.addTo(map);
     markersBounds = markers.getBounds();
-    
+
     // This won't work when there are only markers with no lat/lng. getBounds function should be overwritten
     markersBounds._northEast.lat += 0.05;
     markersBounds._northEast.lng += 0.05;
     markersBounds._southWest.lat -= 0.05;
     markersBounds._southWest.lat -= 0.05;
-    
-    zoomOut();    
+
+    zoomOut();
 }
 
 $(window).resize(function(){
@@ -386,7 +340,11 @@ function zoomOut() {
 var formatDate = d3.time.format("%b-%d");
 
 function callModal (item) {
-	var modalDescription = $(item).find('.modalDescription').html();
+  if(d3.select(item.parentNode).classed('Web-map')){
+    var thisUrl = $(item).find('.thumbnail-link').attr('href');
+    window.open(thisUrl);
+  } else {
+    var modalDescription = $(item).find('.modalDescription').html();
     var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '_thumb.jpg';
     var img_maxHeight = (windowHeight*0.45).toString() + "px";
     $(".modal-detailedDescription").empty();
@@ -394,13 +352,15 @@ function callModal (item) {
     $(".modal-img").css('max-height', img_maxHeight);
     $(".modal-img").attr('src', mapJpg);
     $('#myModal').modal();
+  }
+
 }
 
 function toggleSearchType (item) {
     thumbnails.classed('noMatch', false);
     $(".filterinput").val('');
     var option = $(item).attr("id");
-    // toggleFilter("REFRESH");
+    toggleFilter("REFRESH");
     switch (option) {
         case "filterSearchBtn":
             $("#filterSearchBtn").removeClass("inactiveSearchType").addClass("activeSearchType");
