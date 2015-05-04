@@ -58,7 +58,7 @@ function generateThumbnails(metadata){
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
             '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+
-            ((item.link != '') ? '<br><a class="btn btn-primary btn-mini thumbnail-link" href="'+item.link+'" target="_blank">Link to source</a>' : '')
+            ((item.link != '') ? '<a class="btn btn-success btn-mini thumbnail-link " href="'+item.link+'" target="_blank">Source</a>' : '')
         '</div>'+
    '</div>';
    return itemHtml;
