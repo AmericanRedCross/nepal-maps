@@ -190,7 +190,7 @@ function generatepreviewhtml(data){
                     '<div class="pdfButtonContainer">'+
                         '<a href="' + pdfSrc + '" target="_blank" style="margin:2px;" class="pdfButton btn btn-primary btn-mini">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+
                     '</div>' +
-                    '<button type="button" onclick="callModal(' + item.thumbnail_id + ');" class="btn btn-link btn-mini">Preview thumbnail</button><br>' +
+                    '<button type="button" onclick="callModal(' + item.thumbnail_id + ');" class="btn btn-success btn-mini">Preview Thumbnail</button>' +
                 '</div></div></div>';
         html=html+itemhtml;
         var itemExtents = item.extent.match(/\S+/g);
