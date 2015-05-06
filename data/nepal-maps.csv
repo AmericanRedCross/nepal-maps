@@ -147,8 +147,8 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,T0141,NRCS distributions of tarps and blankets,5/1/15,NRCS relief distributions of tarps and blankets. Data is incomplete and will be updated as new information is available.,2015-05-01_NRCS_distributions_tarps-blankets.pdf,422461,Nepal,NRCS Distributions,null,null,
 ,T0142,Red Cross Deployments in Spanish,4/29/15,a description,FACTERUDEPLOIEMENT_ES_2015-04-29.pdf,735570,World,RedCrossRedCrescent Coordination,null,null,
 ,T0143,Red Cross Deployments in French,4/29/15,a description,FACTERUDEPLOIEMENT_FR_2015-04-29.pdf,727902,World,RedCrossRedCrescent Coordination,null,null,
-,T0144,Regional Logistics map with international airports in India,5/1/15,a description,Logistics_regional_2015-05-01.pdf,1374255,Nepal,Logistics,null,null,
-,T0145,Timezone comparisons,4/29/15,a description,NPL_WorldTimesMap_RC_2015-04-29.pdf,136971,World,Coordination,null,null,
+,T0144,Regional Logistics map with international airports in India,5/1/15,Logistical transportation infrastructure that includes Kolkata (Calcutta) and New Dehli,Logistics_regional_2015-05-01.pdf,1374255,Nepal,Logistics,null,null,
+,T0145,Timezone comparisons,4/29/15,Timezone comparisions for the Red Cross coordination for the operation.,NPL_WorldTimesMap_RC_2015-04-29.pdf,136971,World,Coordination,null,null,
 ,T0146,Population Density (interactive web map) ,4/29/15,Nepal population density,carto-popdens.jpg,0,Nepal,Web-map,null,null,https://nlrc.cartodb.com/u/redcross-sims/viz/cc9097b4-ee4a-11e4-8180-0e0c41326911/public_map
 ,T0147,NRCS distributions of aqua tabs and ORS,5/2/15,NRCS relief distributions of aqua tabs and ORS. Data is incomplete and will be updated as new information is available.,2015-05-02_NRCS_distributions_aquatabs-ors.pdf,425081,Nepal,NRCS Distributions,null,null,
 ,T0148,NRCS distributions of hygiene kits and soap,5/2/15,NRCS relief distributions of hygiene kits and soap. Data is incomplete and will be updated as new information is available.,2015-05-02_NRCS_distributions_hygiene-soap.pdf,413118,Nepal,NRCS Distributions,null,null,
@@ -163,5 +163,5 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,T0157,Earthquake affected Districts,5/3/15,"NRCS map shows affected districts with deaths, and housing information",April_30_Earthquake_affected_districts.png,1264076,Nepal,Affected,null,null,
 ,T0158,IDP Camps Bhaktapur,4/30/15,IDP Camps in Bhaktapur identified in OpenStreetMap,IDP_camps_bhaktapur_print2-01.png,5272173,Bhaktapur,IDP Camps,85.44290591,27.67735289,
 ,T0159,IDP Camps Kathmandu,4/30/15,IDP Camps in Kathmandu identified in OpenStreetMap,IDP_camps_kathmandu_print2-01.png,10129337,Kathmandu,IDP Camps,85.34962108,27.72793597,
-,T0160,,5/4/15,American Red Cross Programs in Nepal,ARC_Programs_2015-05-04.pdf,501972,Nepal,American Red Cross,null,null,
-,T0161,,5/5/15,Nepal Red Cross Society Branch Locations,NRCS_Branches_2015-05-05.pdf,529840,Nepal,NRCS,null,null,
+,T0160,American Red Cross Programs in Nepal,5/4/15,"American Red Cross Programs in Nepal, both past and present. Also, the measles campaign in coordination with the IFRC.",ARC_Programs_2015-05-04.pdf,501972,Nepal,American Red Cross,null,null,
+,T0161,Nepal Red Cross Society Branch Locations,5/5/15,Nepal Red Cross Society Branch locations. Each district has a branch.,NRCS_Branches_2015-05-05.pdf,529840,Nepal,NRCS,null,null,
