@@ -190,3 +190,8 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,T0183,IRA Lamjung Affected Households,5/7/15,IRA Lamjung Affected Households,IRA_Lamjung_Affected_HH_2015-05-07.pdf,441276,Gandaki Lamjung,IRA,84.43230048,28.28899007,
 ,T0184,IRA Lamjung Affected Population (Male),5/7/15,IRA Lamjung Affected Population (Male),IRA_Lamjung_Affected_Males_2015-05-07.pdf,445289,Gandaki Lamjung,IRA,84.43230048,28.28899007,
 ,T0185,IRA Lamjung Displaced Households,5/7/15,IRA Lamjung Displaced Households,IRA_Lamjung_Displaced_HH_2015-05-07.pdf,415342,Gandaki Lamjung,IRA,84.43230048,28.28899007,
+,T0186,IRA Gorkha Displaced Households,5/8/15,IRA Gorkha Displaced Households,IRA_Gorkha_Displaced_HH_2015-05-08.pdf,409359,Gandaki Gorkha,IRA,84.79276843,28.31827249,
+,T0187,IRA Gorkha Fully Damaged Houses,5/8/15,IRA Gorkha Fully Damaged Houses,IRA_Gorkha_Fully_Damaged_2015-05-08.pdf,420712,Gandaki Gorkha,IRA,84.79276843,28.31827249,
+,T0188,IRA Gorkha Injuries,5/8/15,IRA Gorkha Injuries,IRA_Gorkha_Injuries_2015-05-08.pdf,416730,Gandaki Gorkha,IRA,84.79276843,28.31827249,
+,T0189,IRA Gorkha Partially Damaged,5/8/15,IRA Gorkha Partially Damaged,IRA_Gorkha_Partially_Damaged_2015-05-08.pdf,422923,Gandaki Gorkha,IRA,84.79276843,28.31827249,
+,T0190,Regional Logistics map with international airports in India,5/8/15,"Logistical transportation infrastructure that includes Kolkata (Calcutta) and New Dehli – simplified, main roads and airports only",Logistics_regional_simplified_2015-05-08.pdf,1119073,Nepal,Logistics,null,null,
