@@ -186,3 +186,7 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,T0179,IRA Lalitpur Injuries and Deaths,5/7/15,IRA Lalitpur Injuries and Deaths,IRA_Lalitpur_Injuries_2015-05-07.pdf,511931,Bagmati Lalitpur,IRA,85.34482639,27.53815167,
 ,T0180,IRA Lamjung Fully Damaged Houses,5/7/15,IRA Lamjung Fully Damaged Houses,IRA_Lamjung_Fully_Damaged_2015-05-07.pdf,394471,Gandaki Lamjung,IRA,84.43230048,28.28899007,
 ,T0181,IRA Lamjung Partially Damaged Houses,5/7/15,IRA Lamjung Partially Damaged Houses,IRA_Lamjung_Partially_Damaged_2015-05-07.pdf,407900,Gandaki Lamjung,IRA,84.43230048,28.28899007,
+,T0182,IRA Lamjung Affected Population (Female),5/7/15,IRA Lamjung Affected Population (Female),IRA_Lamjung_Affected_Females_2015-05-07.pdf,452731,Gandaki Lamjung,IRA,84.43230048,28.28899007,
+,T0183,IRA Lamjung Affected Households,5/7/15,IRA Lamjung Affected Households,IRA_Lamjung_Affected_HH_2015-05-07.pdf,441276,Gandaki Lamjung,IRA,84.43230048,28.28899007,
+,T0184,IRA Lamjung Affected Population (Male),5/7/15,IRA Lamjung Affected Population (Male),IRA_Lamjung_Affected_Males_2015-05-07.pdf,445289,Gandaki Lamjung,IRA,84.43230048,28.28899007,
+,T0185,IRA Lamjung Displaced Households,5/7/15,IRA Lamjung Displaced Households,IRA_Lamjung_Displaced_HH_2015-05-07.pdf,415342,Gandaki Lamjung,IRA,84.43230048,28.28899007,
