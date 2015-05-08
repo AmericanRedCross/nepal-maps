@@ -42,9 +42,10 @@ function generateThumbnails(metadata){
 
   function generateThumbnailHtml(item){
     var s3 = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/'+item.filename;
-    var link = '';
-    if (item.link){
-        link = '<p style="font-size:small; margin:6px 0 0 10px;"><b>Source:</b> <a href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
+    var linkHtml = '';
+    if (item.link && item.link != undefined){
+        console.log(item);
+        linkHtml = '<p style="font-size:small; margin:6px 0 0 10px;"><b>Source:</b> <a class="item-link" href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
     };
     var itemHtml = '<div onclick="callModal(this);" class="thumbnail">'+
         '<img class="lazy" data-original="img/thumbs/'+item.filename.slice(0,-4)+'_thumb.jpg'+'" width="300" height="200">'+
@@ -56,9 +57,9 @@ function generateThumbnails(metadata){
             '<h4 style="font-weight:bold;">'+item.title+' <small>('+formatDate(new Date(item.date))+')</small></h4>'+
             '<p style="font-size:small; margin:6px 0 0 10px;">'+item.description+'</p>'+
             '<p style="font-size:small; margin:6px 0 0 10px;"><b>Extent tags:</b> '+item.extent.replace(/\s/g, ', ')+'</p>'+
-            '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ link +
+            '<p style="font-size:small; margin:6px 0 0 10px;"><b>Type tags:</b> '+item.sector.replace(/\s/g, ', ')+'</p>'+ linkHtml +
             '<br><a class="btn btn-primary btn-mini" href="'+s3+'" target="_blank">Download file ('+(item.map_size/1024/1024).toFixed(2)+' MB)</a>'+
-            ((item.link != '') ? '<a class="btn btn-success btn-mini thumbnail-link " href="'+item.link+'" target="_blank">Source</a>' : '')
+            // ((item.link != '') ? '<a class="btn btn-success btn-mini thumbnail-link " href="'+item.link+'" target="_blank">Source</a>' : '')
         '</div>'+
    '</div>';
    return itemHtml;
@@ -340,7 +341,7 @@ var formatDate = d3.time.format("%b-%d");
 
 function callModal (item) {
   if(d3.select(item.parentNode).classed('Web-map')){
-    var thisUrl = $(item).find('.thumbnail-link').attr('href');
+    var thisUrl = $(item).find('.item-link').attr('href');
     window.open(thisUrl);
   } else {
     var modalDescription = $(item).find('.modalDescription').html();
@@ -385,7 +386,7 @@ function showDisclaimer() {
 function centroidClick (e) {
     var thumbnail_id = "#" + e.target.feature.properties.thumbnail_id;
     if ($(thumbnail_id).hasClass("Web-map")) {
-        thisUrl = $(thumbnail_id).find('.thumbnail-link').attr('href');
+        thisUrl = $(thumbnail_id).find('.item-link').attr('href');
         window.open(thisUrl, '_blank');
     } else {
         searchString = thumbnail_id + " .thumbnail";
