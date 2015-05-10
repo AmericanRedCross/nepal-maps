@@ -345,7 +345,7 @@ function callModal (item) {
     window.open(thisUrl);
   } else {
     var modalDescription = $(item).find('.modalDescription').html();
-    var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '_thumb.jpg';
+    var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '_small.jpg';
     var img_maxHeight = (windowHeight*0.45).toString() + "px";
     $(".modal-detailedDescription").empty();
     $(".modal-detailedDescription").html(modalDescription);
