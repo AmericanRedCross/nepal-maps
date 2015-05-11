@@ -201,3 +201,7 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,T0194,IRA Gorkha Deaths,5/8/15,IRA Gorkha Deaths,IRA_Gorkha_Deaths_2015-05-08.pdf,411811,Gandaki Gorkha,IRA,84.79276843,28.31827249,
 ,T0195,IRA Kathmandu Fully Damaged Houses,5/8/15,IRA Kathmandu Fully Damaged Houses,IRA_Kathmandu_Fully_Damaged_2015-05-08.pdf,573894,Bagmati Kathmandu,IRA,85.34962108,27.72793597,
 ,T0196,IRA Kathmandu Partially Damaged Houses,5/8/15,IRA Kathmandu Partially Damaged Houses,IRA_Kathmandu_Partially_Damaged_2015-05-08.pdf,574861,Bagmati Kathmandu,IRA,85.34962108,27.72793597,
+,T0197,IRA Nuwakot Fully Damaged Houses,5/11/15,IRA Nuwakot Fully Damaged Houses,IRA_Nuwakot_Fully_Damaged_2015-05-11.pdf,531215,Bagmati Nuwakot,IRA,85.23769696,27.9148685,
+,T0198,IRA Nuwakot Partially Damaged Houses,5/11/15,IRA Nuwakot Partially Damaged Houses,IRA_Nuwakot_Partially_Damaged_2015-05-11.pdf,600802,Bagmati Nuwakot,IRA,85.23769696,27.9148685,
+,T0199,IRA Rasuwa Fully Damaged Houses,5/11/15,IRA Rasuwa Fully Damaged Houses,IRA_Rasuwa_Fully_Damaged_2015-05-11.pdf,297458,Bagmati Rasuwa,IRA,85.41469951,28.18474082,
+,T0200,IRA Rasuwa Partially Damaged Houses,5/11/15,IRA Rasuwa Partially Damaged Houses,IRA_Rasuwa_Partially_Damaged_2015-05-11.pdf,289942,Bagmati Rasuwa,IRA,85.41469951,28.18474082,
