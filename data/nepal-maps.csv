@@ -205,3 +205,7 @@ source,thumbnail_id,title,date,description,filename,map_size,extent,sector,longi
 ,T0198,IRA Nuwakot Partially Damaged Houses,5/11/15,IRA Nuwakot Partially Damaged Houses,IRA_Nuwakot_Partially_Damaged_2015-05-11.pdf,600802,Bagmati Nuwakot,IRA,85.23769696,27.9148685,
 ,T0199,IRA Rasuwa Fully Damaged Houses,5/11/15,IRA Rasuwa Fully Damaged Houses,IRA_Rasuwa_Fully_Damaged_2015-05-11.pdf,297458,Bagmati Rasuwa,IRA,85.41469951,28.18474082,
 ,T0200,IRA Rasuwa Partially Damaged Houses,5/11/15,IRA Rasuwa Partially Damaged Houses,IRA_Rasuwa_Partially_Damaged_2015-05-11.pdf,289942,Bagmati Rasuwa,IRA,85.41469951,28.18474082,
+,T0201,IRA Sindhuli Fully Damaged,5/11/15,IRA Sindhuli Fully Damaged,IRA_Sindhuli_Fully_Damaged_2015-05-11.pdf,468729,Janakpur Sindhuli,IRA,85.94659879,27.20110756,
+,T0202,IRA Sindhuli Partially Damaged,5/11/15,IRA Sindhuli Partially Damaged,IRA_Sindhuli_Partially_Damaged_2015-05-11.pdf,465988,Janakpur Sindhuli,IRA,85.94659879,27.20110756,
+,T0203,IRA Sindhupalchwok Fully Damaged,5/11/15,IRA Sindhupalchwok Fully Damaged,IRA_Sindhupalchwok_Fully_Damaged_2015-05-11.pdf,478041,Bagmati Sindhupalchok,IRA,85.74188453,27.9145605,
+,T0204,IRA Sindhupalchwok Partially Damaged,5/11/15,IRA Sindhupalchwok Partially Damaged,IRA_Sindhupalchwok_Partially_Damaged_2015-05-11.pdf,457105,Bagmati Sindhupalchok,IRA,85.74188453,27.9145605,
