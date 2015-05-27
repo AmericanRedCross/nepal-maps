@@ -79,22 +79,27 @@
 
 
       <div class="collaborationText">
-        <p>The American Red Cross and the British Red Cross are working together because they both love making maps and helping people, yay! This page shows a lot of the maps we've made for folks in the field and our operations centers.</p>
+        <p>The American Red Cross and the British Red Cross are working together because they both love making maps and helping people, yay! This page shows a lot of the maps we've made or gathered together for folks in the field and our operations centers.</p>
+        <p>Double click the above map to zoom in on an area of interest and click a marker to preview the map and get the option of downloading a PDF. Or scroll down to check out our highlighted maps and search the entire collection.</p>
         <p>Please report any issues by <a href="mailto://daniel.joseph@redcross.org">email</a> or using <a href="https://github.com/AmericanRedCross/nepal-maps/issues" target="_blank">GitHub</a>.</p>
       </div>
 
       <hr style="margin-bottom:0;">
 
-      <h4>How to use the mapfolio:</h4>
-        <p>
-          Double click the map to zoom in on an area of interest. Click a marker on the map or a thumbnail in the gallery below to preview the map and get the option of downloading a PDF.
-        </p>
+      <div>
+        <h4>Higlighted maps <button id="highlighted-toggle" class="btn btn-default btn-xs">Hide</button></h4>
+        <div id="highlighted-maps">
+        </div>
 
-      <h4>Search for maps by:
-      <button id="textSearchBtn" class="btn btn-default btn-small activeSearchType" type="button" style="display:inline;" onclick="toggleSearchType(this)">text input</button>
-      <button id="filterSearchBtn" class="btn btn-default btn-small inactiveSearchType" type="button" style="display:inline;" onclick="toggleSearchType(this)">pre-set filters</button></h4>
+      </div>
 
-      <div style="padding-top:15px;">
+      <hr style="margin-bottom:0;">
+
+      <h4>Search all maps by:
+      <button id="textSearchBtn" class="btn btn-default btn-sm activeSearchType" type="button" style="display:inline;" onclick="toggleSearchType(this)">text input</button>
+      <button id="filterSearchBtn" class="btn btn-default btn-sm inactiveSearchType" type="button" style="display:inline;" onclick="toggleSearchType(this)">pre-set filters</button></h4>
+
+      <div style="padding:10px 0px;">
 
         <div id="filterSearch" style="display:none;">
             <p>
@@ -121,7 +126,7 @@
 
       </div>
 
-      <hr style="margin-bottom:0;">
+
 
       <div id="mappreviews" class="row thumbnailGallery"></div>
     </div>

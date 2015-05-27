@@ -13,12 +13,16 @@ body{
 
 #map {
   width: 100%;
-  height: 450px;
+  height: 350px;
   background-color: #ffffff;
   margin-bottom: 15px;
   border-bottom-color: #eee;
   border-bottom-width: 1px;
   border-bottom-style: solid;
+}
+
+#highlighted-maps .thumbnail{
+  border-color: #7f181b;
 }
 
 .btn-zoom {

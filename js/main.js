@@ -1,6 +1,7 @@
 var windowHeight = $(window).height();
 var markers = new L.MarkerClusterGroup();
 var thumbnails;
+var highlights;
 var thumbnailCount = 0;
 var extentButtons;
 var sectorButtons;
@@ -65,6 +66,16 @@ function generateThumbnails(metadata){
    return itemHtml;
   }
 
+  // highlight maps
+  highlights = d3.select("#highlighted-maps").selectAll('div')
+    .data(metadata.filter(function(d,i){
+      return d.highlight === "TRUE";
+    })).enter().append('div')
+    .attr('id', function(d){ return d.thumbnail_id; })
+    .classed('thumbnailWrap col-sm-3', true)
+    .html(function(d) {return generateThumbnailHtml(d); })
+
+  // all maps
   thumbnails = d3.select("#mappreviews").selectAll('div')
     .data(metadata).enter().append('div')
     .attr('id', function(d){ return d.thumbnail_id; })
@@ -403,6 +414,18 @@ function clearName(e) {
     var target = e.target;
     target.closePopup();
 }
+
+// toggle visibility of highlighted maps
+$("#highlighted-toggle").click(function () {
+  $(this).text(function(i, text){
+      if (text === "Hide") {
+        $("#highlighted-maps").hide();
+      } else {
+        $("#highlighted-maps").show();
+      }
+      return text === "Hide" ? "Show" : "Hide";
+  })
+});
 
 
 // Search Box
