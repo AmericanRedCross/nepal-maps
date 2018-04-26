@@ -42,7 +42,7 @@ function getMeta() {
 function generateThumbnails(metadata){
 
   function generateThumbnailHtml(item){
-    var s3 = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/'+item.filename;
+    var s3 = 'https://s3-us-west-2.amazonaws.com/arcmaps/response-maps/2015_npl_earthquake/'+item.filename;
     var linkHtml = '';
     if (item.link && item.link != undefined){
         console.log(item);

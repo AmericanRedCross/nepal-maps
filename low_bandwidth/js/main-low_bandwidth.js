@@ -171,7 +171,7 @@ function generatepreviewhtml(data){
         return formattedDate;
     }
     $.each(data, function(index, item){
-        var pdfSrc = 'https://s3-us-west-2.amazonaws.com/arcmaps/nepal/' + item.filename;
+        var pdfSrc = 'https://s3-us-west-2.amazonaws.com/arcmaps/response-maps/2015_npl_earthquake/' + item.filename;
         var link = '';
         if (item.link){
             link = '<p style="font-size:small; margin:0 0 0 10px;"><b>Source:</b> <a href="'+item.link+'" target="_blank">'+item.link+'</a></p>';
